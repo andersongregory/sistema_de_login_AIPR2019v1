@@ -1,9 +1,9 @@
 <?php
-    
-    session_start();
-    if(isset($_SESSION['nomeUsuario']))
-        //Bloqueando usuários logados    
-        header("location: profile.php");
+
+session_start();
+if (isset($_SESSION['nomeUsuario']))
+    //Bloqueando usuários logados    
+    header("location: profile.php");
 ?>
 
 <!DOCTYPE html>
@@ -105,6 +105,10 @@
                         <input type="password" name="senhaConfirma" id="senhaConfirma" class="form-control" placeholder="Confirme a sua senha" required minlength="6">
                     </div>
 
+                    <div class="form-group">
+                        <input type="text" name="avatar" id="avatar" class="form-control" placeholder="URL do Seu Avatar">
+                    </div>
+
                     <div class="form-group mt-5">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" name="concordar" id="concordar" class="custom-control-input">
@@ -173,7 +177,6 @@
         /* jQuery */
         $(function() {
             //Front-end
-
             //Preparação dos dados para envio para o back-end
             //Envio dos dados do formulário de login
             $('#btnEntrar').click(function(e) {
@@ -187,7 +190,7 @@
                         success: function(resposta) {
                             $('#alerta').show();
                             $('#resultado').html(resposta);
-                            if(resposta === "ok"){
+                            if (resposta === "ok") {
                                 //Redirecinamento
                                 window.location = "profile.php";
                             }
@@ -195,7 +198,6 @@
                     });
                 }
             });
-
             //Formulário de Cadastro de usuário
             $('#btnRegistrar').click(function(e) {
                 let formCadastro = document.querySelector("#formCadastro");
@@ -212,60 +214,48 @@
                     });
                 }
             });
-
             //Formulário para mudar de senha
             $('#btnEnviarEmail').click(function(e) {
                 let formSenha = document.querySelector('#formSenha');
-                if(formSenha.checkValidity()){
-                    e.preventDefault();//Não recarregar a página
+                if (formSenha.checkValidity()) {
+                    e.preventDefault(); //Não recarregar a página
                     $.ajax({
                         url: 'recebe.php',
                         method: 'post',
-                        data: $('#formSenha').serialize()+'&action=senha',
-                        success: function(resposta){
+                        data: $('#formSenha').serialize() + '&action=senha',
+                        success: function(resposta) {
                             $('#alerta').show();
                             $('#resultado').html(resposta);
                         }
                     });
                 }
             });
-
-
-
-
             //Trocar da Tela de Login para Recuperar Senha
             $("#btnEsqueci").click(function() {
                 $("#caixaLogin").hide();
                 $("#caixaRecuperarSenha").show();
             });
-
             //Voltar para a tela de Login
             $("#btnVoltar").click(function() {
                 $("#caixaLogin").show();
                 $("#caixaRecuperarSenha").hide();
             });
-
             //Trocar de tela de Login para cadastro de usuário
             $('#btnCadastrar').click(function() {
                 $("#caixaLogin").hide();
                 $("#caixaCadastro").show();
             });
-
             //Voltar para a tela de Login
             $('#btnJáCadastrado').click(function() {
                 $("#caixaLogin").show(); //mostrar
                 $("#caixaCadastro").hide(); //ocultar
             });
-
             //jQuery Validation chão chão
             $("#formLogin").validate();
             $("#formSenha").validate();
-
             $.validator.setDefaults({
                 success: "valid"
             });
-
-
             $("#formCadastro").validate({
                 rules: {
                     senhaConfirma: {
@@ -273,10 +263,7 @@
                     }
                 }
             });
-
-
         });
-
         /*
          * Translated default messages for the jQuery validation plugin.
          * Locale: PT_BR

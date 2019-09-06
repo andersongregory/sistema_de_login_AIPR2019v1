@@ -1,10 +1,8 @@
 <?php
 //Inicializando a sessão
 session_start();
-
 //É necessário fazer a conexão com o Banco de Dados
 require_once "configDB.php";
-
 function verificar_entrada($entrada)
 {
     $saida = trim($entrada); //Remove espaços antes e depois
@@ -12,7 +10,6 @@ function verificar_entrada($entrada)
     $saida = htmlspecialchars($saida);
     return $saida;
 }
-
 if(isset($_POST['action']) &&
     $_POST['action'] == 'login'){
     //Verificação e Login do usuário
@@ -25,9 +22,7 @@ if(isset($_POST['action']) &&
         nomeUsuario = ? AND senha = ?");
     $sql->bind_param("ss", $nomeUsuario, $senha);
     $sql->execute();
-
     $busca = $sql->fetch();
-
     if($busca != null){ 
         //Colocando o nome do usuário na Sessão
         $_SESSION['nomeUsuario'] = $nomeUsuario;
@@ -35,7 +30,6 @@ if(isset($_POST['action']) &&
     }else{
         echo "usuário e senha não conferem!";
     }
-
 }else if (isset($_POST['action']) &&
     $_POST['action'] == 'cadastro') {
     //Cadastro de um novo usuário
@@ -47,12 +41,11 @@ if(isset($_POST['action']) &&
     $senhaConfirma = verificar_entrada($_POST['senhaConfirma']);
     $concordar = $_POST['concordar'];
     $dataCriacao = date("Y-m-d H:i:s");
-
+    $avatar = verificar_entrada($_POST['avatar']);
     
     //Hash de senha / Codificação de senha em 40 caracteres
     $senha = sha1($senhaUsuario);
     $senhaC = sha1($senhaConfirma);
-
     if ($senha != $senhaC) {
         echo "<h1>As senhas não conferem</h1>";
         exit();
@@ -72,10 +65,15 @@ if(isset($_POST['action']) &&
             echo "<p>E-mail já em uso, tente outro</p>";
         }else{ //Cadastro de usuário
             $sql = $conecta->prepare("INSERT into usuario 
-            (nome, nomeUsuario, email, senha, dataCriacao) 
-            values(?, ?, ?, ?, ?)");
-            $sql->bind_param("sssss",$nomeCompleto, $nomeUsuario,
-        $emailUsuario, $senha, $dataCriacao);
+            (nome, nomeUsuario, email, senha, dataCriacao, avatar) 
+            values(?, ?, ?, ?, ?, ?)");
+            $sql->bind_param("ssssss",$nomeCompleto,
+             $nomeUsuario, 
+             $emailUsuario, 
+             $senha,
+             $dataCriacao, 
+             $avatar
+        );
             if($sql->execute()){
                 echo "<p>Registrado com sucesso</p>";
             }else{
