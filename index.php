@@ -98,15 +98,17 @@ if (isset($_SESSION['nomeUsuario']))
                     </div>
 
                     <div class="form-group">
+                        <input type="url" name="urlAvatar" id="urlAvatar" 
+                        class="form-control" 
+                        placeholder="URL para imagem do seu perfil" required>
+                    </div>
+
+                    <div class="form-group">
                         <input type="password" name="senhaUsuário" id="senhaUsuário" class="form-control" placeholder="Digite sua senha" minlength="6" required>
                     </div>
 
                     <div class="form-group">
                         <input type="password" name="senhaConfirma" id="senhaConfirma" class="form-control" placeholder="Confirme a sua senha" required minlength="6">
-                    </div>
-
-                    <div class="form-group">
-                        <input type="text" name="avatar" id="avatar" class="form-control" placeholder="URL do Seu Avatar">
                     </div>
 
                     <div class="form-group mt-5">
@@ -177,6 +179,7 @@ if (isset($_SESSION['nomeUsuario']))
         /* jQuery */
         $(function() {
             //Front-end
+
             //Preparação dos dados para envio para o back-end
             //Envio dos dados do formulário de login
             $('#btnEntrar').click(function(e) {
@@ -198,6 +201,7 @@ if (isset($_SESSION['nomeUsuario']))
                     });
                 }
             });
+
             //Formulário de Cadastro de usuário
             $('#btnRegistrar').click(function(e) {
                 let formCadastro = document.querySelector("#formCadastro");
@@ -214,6 +218,7 @@ if (isset($_SESSION['nomeUsuario']))
                     });
                 }
             });
+
             //Formulário para mudar de senha
             $('#btnEnviarEmail').click(function(e) {
                 let formSenha = document.querySelector('#formSenha');
@@ -230,32 +235,43 @@ if (isset($_SESSION['nomeUsuario']))
                     });
                 }
             });
+
+
+
+
             //Trocar da Tela de Login para Recuperar Senha
             $("#btnEsqueci").click(function() {
                 $("#caixaLogin").hide();
                 $("#caixaRecuperarSenha").show();
             });
+
             //Voltar para a tela de Login
             $("#btnVoltar").click(function() {
                 $("#caixaLogin").show();
                 $("#caixaRecuperarSenha").hide();
             });
+
             //Trocar de tela de Login para cadastro de usuário
             $('#btnCadastrar').click(function() {
                 $("#caixaLogin").hide();
                 $("#caixaCadastro").show();
             });
+
             //Voltar para a tela de Login
             $('#btnJáCadastrado').click(function() {
                 $("#caixaLogin").show(); //mostrar
                 $("#caixaCadastro").hide(); //ocultar
             });
+
             //jQuery Validation chão chão
             $("#formLogin").validate();
             $("#formSenha").validate();
+
             $.validator.setDefaults({
                 success: "valid"
             });
+
+
             $("#formCadastro").validate({
                 rules: {
                     senhaConfirma: {
@@ -263,7 +279,10 @@ if (isset($_SESSION['nomeUsuario']))
                     }
                 }
             });
+
+
         });
+
         /*
          * Translated default messages for the jQuery validation plugin.
          * Locale: PT_BR
