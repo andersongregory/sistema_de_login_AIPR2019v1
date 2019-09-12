@@ -1,10 +1,8 @@
 <?php
 //Inicializando a sessão
 session_start();
-
 //É necessário fazer a conexão com o Banco de Dados
 require_once "configDB.php";
-
 function verificar_entrada($entrada)
 {
     $saida = trim($entrada); //Remove espaços antes e depois
@@ -12,9 +10,10 @@ function verificar_entrada($entrada)
     $saida = htmlspecialchars($saida);
     return $saida;
 }
-
-if(isset($_POST['action']) &&
-    $_POST['action'] == 'login'){
+if (
+    isset($_POST['action']) &&
+    $_POST['action'] == 'login'
+) {
     //Verificação e Login do usuário
     $nomeUsuario = verificar_entrada($_POST['nomeUsuario']);
     $senhaUsuario = verificar_entrada($_POST['senhaUsuario']);
@@ -25,19 +24,36 @@ if(isset($_POST['action']) &&
         nomeUsuario = ? AND senha = ?");
     $sql->bind_param("ss", $nomeUsuario, $senha);
     $sql->execute();
-
     $busca = $sql->fetch();
-
-    if($busca != null){ 
+    if ($busca != null) {
         //Colocando o nome do usuário na Sessão
         $_SESSION['nomeUsuario'] = $nomeUsuario;
         echo "ok";
-    }else{
+        if (!empty($_POST['lembrar'])) {
+            //Se não estiver vazio
+            //Armazenar Login e Senha no Cookie
+            setcookie(
+                "nomeUsuario",
+                $nomeUsuario,
+                time() + (30 * 24 * 60 * 60)
+            );
+            setcookie(
+                "senhaUsuario",
+                $senhaUsuario,
+                time() + (30 * 24 * 60 * 60)
+            ); //30 dias em segundos
+        } else {
+            //Se estiver vazio
+            setcookie("nomeUsuario", "");
+            setcookie("senhaUsuario", "");
+        }
+    } else {
         echo "usuário e senha não conferem!";
     }
-
-}else if (isset($_POST['action']) &&
-    $_POST['action'] == 'cadastro') {
+} else if (
+    isset($_POST['action']) &&
+    $_POST['action'] == 'cadastro'
+) {
     //Cadastro de um novo usuário
     //Pegar os campos do formulário
     $nomeCompleto = verificar_entrada($_POST['nomeCompleto']);
@@ -49,11 +65,9 @@ if(isset($_POST['action']) &&
     //$concordar = $_POST['concordar'];
     $dataCriacao = date("Y-m-d H:i:s");
 
-    
     //Hash de senha / Codificação de senha em 40 caracteres
     $senha = sha1($senhaUsuario);
     $senhaC = sha1($senhaConfirma);
-
     if ($senha != $senhaC) {
         echo "<h1>As senhas não conferem</h1>";
         exit();
@@ -63,24 +77,31 @@ if(isset($_POST['action']) &&
         $sql = $conecta->prepare("SELECT nomeUsuario, email 
         FROM usuario WHERE nomeUsuario = ? OR email = ?");
         //Substitui cada ? por uma string abaixo
-        $sql->bind_param("ss",$nomeUsuario, $emailUsuario);
+        $sql->bind_param("ss", $nomeUsuario, $emailUsuario);
         $sql->execute();
         $resultado = $sql->get_result();
         $linha = $resultado->fetch_array(MYSQLI_ASSOC);
-        if($linha['nomeUsuario'] == $nomeUsuario){
+        if ($linha['nomeUsuario'] == $nomeUsuario) {
             echo "<p>Nome de usuário indisponível, tente outro</p>";
-        }elseif ($linha['email'] == $emailUsuario) {
+        } elseif ($linha['email'] == $emailUsuario) {
             echo "<p>E-mail já em uso, tente outro</p>";
-        }else{ //Cadastro de usuário
+        } else { //Cadastro de usuário
             $sql = $conecta->prepare("INSERT into usuario 
             (nome, nomeUsuario, email, senha, dataCriacao, 
             avatar_url) 
             values(?, ?, ?, ?, ?, ?)");
-            $sql->bind_param("ssssss",$nomeCompleto, $nomeUsuario,
-        $emailUsuario, $senha, $dataCriacao, $urlAvatar);
-            if($sql->execute()){
+            $sql->bind_param(
+                "ssssss",
+                $nomeCompleto,
+                $nomeUsuario,
+                $emailUsuario,
+                $senha,
+                $dataCriacao,
+                $urlAvatar
+            );
+            if ($sql->execute()) {
                 echo "<p>Registrado com sucesso</p>";
-            }else{
+            } else {
                 echo "<p>Algo deu errado. Tente outra vez.</p>";
             }
         }
