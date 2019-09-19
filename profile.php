@@ -20,7 +20,7 @@ require_once 'session.php';
 <body class="bg-dark">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">GREG Systems</a>
+        <a class="navbar-brand" href="#">TNX Systems</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -30,7 +30,7 @@ require_once 'session.php';
                     <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="slider.php">Link 1</a>
+                    <a class="nav-link" href="#">Link 1</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Link 2</a>
@@ -41,8 +41,8 @@ require_once 'session.php';
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="slider.php">Fotos</a>
-                        <a class="dropdown-item" href="#">Config</a>
-                        <a class="dropdown-item" href="sair.php">Exit</a>
+                        <a class="dropdown-item" href="#">Config.</a>
+                        <a class="dropdown-item" href="sair.php">Sair</a>
 
                     </div>
                 </li>

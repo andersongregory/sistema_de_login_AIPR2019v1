@@ -17,7 +17,7 @@
         <section class="row justify-content-center">
             <div class="col-lg-5 mt-5">
                 <h3 class="text-center bg-dark text-light p-2 rounded">
-                    Crie Uma Nova Senha
+                    Crie uma nova senha
                 </h3>
                 <h4 class="text-center">
                     <?= @$msg ?>
@@ -25,31 +25,36 @@
                 <form action="" method="post">
                     <div class="form-group">
                         <label for="senha">
-                            <input type="password" 
-                            name="senha" 
-                            class="form-control" 
-                            placeholder="Nova Senha" 
-                            required>
+                            Nova Senha
+                        </label>
+                        <input type="password" 
+                        name="senha" id="senha" 
+                        class="form-control" 
+                        placeholder="Nova Senha" 
+                        required>
                     </div>
                     <div class="form-group">
-                        <label for="senha">
-                            <input type="password" 
-                            name="csenha" 
-                            class="form-control" 
-                            placeholder="Confirme sua Senha" 
-                            required>
+                        <label for="csenha">
+                            Confirme a Senha
+                        </label>
+                        <input type="password" 
+                        name="csenha" id="csenha" 
+                        class="form-control" 
+                        placeholder="Nova Senha" 
+                        required>
                     </div>
                     <div class="form-group">
                         <input type="submit" 
-                            value="* Criar nova senha *" 
-                            name="criar"
-                            class="btn btn-block"
-                            style="background: purple;
-                            color: white;
-                            font-weigth: bolder;
-                            padding: 10px;
-                            font-size: 22px;
-                            box-shadow: 3px 3px 5px black;">
+                        value=":: Criar nova senha ::"
+                        name="criar" 
+                        class="btn btn-block"
+                        style="background: purple; 
+                                color: white; 
+                                font-weight: bolder;
+                                padding: 10px;
+                                font-size: 22px;
+                                box-shadow: 3px 3px 3px gray;">
+                    </div>
                 </form>
             </div>
         </section>
