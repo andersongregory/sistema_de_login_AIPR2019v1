@@ -19,15 +19,22 @@ if((isset($_POST['action']) &&
         //echo "<strong>recuperação de Senha</strong>";
     $emailSenha = verficar_entrada($_POST['emailSenha']);
     $sql = $conecta->prepare("SELECT idUsuario FROM usuario WHERE email = ?");
-    $sql->blind_param("s", $emailSenha);
+    $sql->bind_param("s", $emailSenha);
     $sql->execute();
     $resultado = $sql->get_result();
     if($resultado->num_rows > 0){
         //Existe o usuário no Banco de Dados
         $frase = "EuSouFodaENadaMais";
-        $frase_secreta = str_shuffle($frase);
-        $token = substr($frase_secreta,0,10);
-        echo '<p>$token</p>';
+        $frase_secreta = str_shuffle($frase);//Embaralha a frase 
+        $token = substr($frase_secreta,0,10);//10 primeiros caracteres 
+        //echo "<p>$token</p>";
+        $sql = $conecta->prepare("UPDATE usuario SET token = ?, tempo_de_vida = DATA_ADD(NOW(),  INTERVAL 1 MINUTE) WHERE email = ?");
+        $SQL->bind_param("s", $token, $emailSenha);
+        $sql->execute();
+        //criaçaõ do Link para geral nova senha
+        $link = "<a herf=\"gerar_senha.php?token=$token\">Clique aqui para gerar uma nova senha</a>";
+        //Este link deve ser enviado por e-mail
+        echo $link;
     }else{
         echo '<p class="text-danger">E-mail não encontrado</p>';
     }
